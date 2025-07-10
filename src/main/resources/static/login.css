@@ -1,0 +1,103 @@
+@import url('https://fonts.google.com/css2?family=Roboto:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    /*Ensure to change font family*/
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 110vh;
+    margin: 0;
+    padding: 1rem;
+    color: #333;
+}
+
+.container{
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0 , 0.1);
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+h2{
+    text-align: center;
+    color: #6a0dad;
+    margin-bottom: 30px;
+}
+
+.form-group{
+    margin-bottom: 20px;
+    position: relative;
+}
+
+label{
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"],
+input[type="email"]{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus{
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.25);
+}
+
+input.valid{
+    border-color: #28a745;
+}
+
+input.invalid{
+    border-color: #dc3545;
+}
+
+.error-message{
+    color: #dc3545;
+    font-size: 0.87rem;
+    margin-top: 5px;
+    display: none;
+}
+
+button{
+    width: 100%;
+    padding: 15px;
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover{
+    background-color: #6a0dad;
+    transform: translateX(-2px);
+}
+
+button:active{
+    transform: translateY(0);
+}

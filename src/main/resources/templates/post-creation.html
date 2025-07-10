@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rabbi Magazine - rabbi</title>
+    <link rel="stylesheet" th:href="@{/post-creation.css}">
+    <link rel="icon" th:href="@{/images/cropped-rabbi-fevicon.jpg}">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<h1>rabbi</h1>
+    <section>
+    <form id="postForm">
+        <h2>Create Post</h2>
+        <div>
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" placeholder="Title"><br>
+        </div>
+        <div>
+            <label for="titleImage" class="form-label">Title Image</label>
+            <input type="file" placeholder="Title Image" name="image" id="titleImage" accept="image/*" required><br>
+            <img id="imagePreview" src="#" alt="Image Preview" style="display:none; max-height: 200px; margin-top: 1rem;" />
+        </div>
+        <div>
+            <label for="categorySelect" class="form-label">Select Category: </label>
+            <select name="categoryTitle" id="categorySelect" required>
+                <!-- categories will be populated dynamically by js -->
+            </select><br><br>
+        </div>
+        <div>
+            <label for="introduction" class="form-label">Introduction: </label>
+            <textarea name="description" id="introduction" placeholder="Introduction"></textarea>
+        </div>
+        <h3>Points</h3>
+        <div id="pointsContainer"></div>
+        <button type="button" onclick="addPoint()">+ Add Points</button><br><br>
+        <button type="submit">Create Post</button>
+    </form>
+    </section>
+<script th:src="@{/post-creation-script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.title}"></title>
+    <link rel="stylesheet" th:href="@{/post.css}">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<div class="container" >
+    <h1 id="postTitle" th:text="${post.title}">Loading...</h1>
+    <img id="postTitleImage" class="title-image" th:src="'/uploads/'+${post.titleImageName}" alt="">
+    <p id="pointIntro" th:text="${post.introduction}"></p>
+    <div id="pointsContainer" th:each="point: ${post.points}">
+        <h3 th:text="${point.pointHeading}"></h3>
+        <img th:src="'/uploads/' + ${point.pointImageName}" alt="">
+        <p th:text="${point.pointBody}"></p>
+    </div>
+</div>
+<script th:src="@{/post.js}"></script>
+</body>
+</html>

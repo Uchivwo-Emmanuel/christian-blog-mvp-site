@@ -1,0 +1,25 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/category.css}">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+    <title th:text="${category.title}">Category</title>
+</head>
+<body>
+<header class="category-header">
+    <h1 th:text="${category.title}"></h1>
+    <img th:src="@{'/uploads/' + ${category.imageName}}" class="category-image" alt="Category Image">
+    <p th:text="${category.description}" class="description"></p>
+    <h2>Reads In this Category</h2>
+</header>
+<div class="posts-container">
+    <div th:each="post : ${posts}" class="post-card">
+        <img th:src="@{'/uploads/' + ${post.titleImageName}}" alt="Post Image">
+        <h6 th:text="${post.title}"></h6>
+    </div>
+</div>
+<script th:src="@{/category.js}"></script>
+</body>
+</html>

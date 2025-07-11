@@ -1,11 +1,13 @@
 services:
   - type: web
     name: rabbi-mvp-site
-    env: java
-    buildCommand: "./mvnw clean package -DskipTests"
-    startCommand: "java -jar target/*.jar"
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
     envVars:
-      - key: JAVA_HOME
-        value: /opt/render/project/.jdk
-      - key: JAVA_VERSION
-        value: 17
+      - key: SPRING_DATASOURCE_URL
+        value: ${DATABASE_URL}
+      - key: SPRING_DATASOURCE_USERNAME
+        value: ${DATABASE_USERNAME}
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: ${DATABASE_PASSWORD}

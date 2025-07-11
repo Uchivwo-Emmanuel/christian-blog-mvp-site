@@ -8,6 +8,8 @@ services:
       - key: SPRING_DATASOURCE_URL
         value: ${DATABASE_URL}
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${DATABASE_USERNAME}
+        value: ${DB_USERNAME}
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${DATABASE_PASSWORD}
+        value: ${DB_PASSWORD}
+      - key: JAVA_VERSION
+        value: 17

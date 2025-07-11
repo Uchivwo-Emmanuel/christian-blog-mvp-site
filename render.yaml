@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: rabbi-mvp-site
+    env: java
+    buildCommand: "./mvnw clean package -DskipTests"
+    startCommand: "java -jar target/*.jar"
+    envVars:
+      - key: JAVA_HOME
+        value: /opt/render/project/.jdk
+      - key: JAVA_VERSION
+        value: 17

@@ -1,13 +1,20 @@
 spring:
   jpa:
     open-in-view: false
+    #Don't forget to update back to false
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+#    url: ${jdbc:postgresql://localhost:5433/test}
+#    username: ${postgres}
+#    password: ${EMma20??}
     driver-class-name: org.postgresql.Driver
 
-logging:
-  level:
-    root: INFO
-    com.zaxxer.hikari: DEBUG
+#logging:
+#  level:
+#    root: INFO
+#    com.zaxxer.hikari: DEBUG
+
+server:
+  port: ${PORT:8080}

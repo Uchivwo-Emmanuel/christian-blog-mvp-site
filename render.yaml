@@ -13,3 +13,7 @@ services:
         value: ${DB_PASSWORD}
       - key: JAVA_VERSION
         value: 17
+
+
+
+

@@ -1,7 +1,7 @@
 HELP.md
 
 #Ignore Appliction Properties
-application.properties
+#application.properties
 
 target/
 .mvn/wrapper/maven-wrapper.jar

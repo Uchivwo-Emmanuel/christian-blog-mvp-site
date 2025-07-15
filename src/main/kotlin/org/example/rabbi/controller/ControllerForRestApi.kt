@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.*
 import org.example.rabbi.repository.CategoryRepository
 import org.example.rabbi.repository.PostPointRepository
 import org.example.rabbi.repository.WebPostRepository
-import org.example.rabbi.service.PostService
+import org.example.rabbi.service.WebAppService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
 
@@ -21,15 +22,23 @@ import org.springframework.web.multipart.MultipartHttpServletRequest
 class ControllerForRestApi(
     private val categoryRepository: CategoryRepository,
     private val webPostRepository: WebPostRepository,
-    private val postService: PostService,
-    private val postPointRepository: PostPointRepository,
-    private val generalController: GeneralController
+    private val webAppService: WebAppService,
+    private val postPointRepository: PostPointRepository
 ) {
 
+
+    @Transactional(readOnly = true)
     @GetMapping("/get-categories")
     fun getCategories(): ResponseEntity<out Any> {
-        val categories = categoryRepository.findAll()
-        val categoryDTOs = generalController.categoriesToDTO(categories,categories.size)
+        val categories = categoryRepository.findAllWithWebPosts()
+        val categoryDTOs = categories.map {category ->
+            CategoryDTO(
+                id = category.id,
+                title = category.title,
+                imageUrl = category.imageName,
+                webPosts = category.webPosts
+            )
+        }
         return ResponseEntity.status(HttpStatus.OK).body(mapOf(
             "categories" to categoryDTOs
         ))
@@ -54,7 +63,7 @@ class ControllerForRestApi(
                 id = null,
                 pointHeading = pointTitle,
                 pointBody = pointBody,
-                pointImageName = pointImage?.let { postService.saveFileToUploadFolder(it) },
+                pointImageName = pointImage?.let { webAppService.saveFileToUploadFolder(it) },
                 post = null
             )
             points.add(postPoint)
@@ -65,7 +74,7 @@ class ControllerForRestApi(
         val newPost = WebPost(
             id = null,
             title = title,
-            titleImageName = postService.saveFileToUploadFolder(titleImage),
+            titleImageName = webAppService.saveFileToUploadFolder(titleImage),
             introduction = introduction,
             category = category,
             points = points,

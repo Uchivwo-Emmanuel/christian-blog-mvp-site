@@ -7,7 +7,7 @@
 }
 
 body{
-    background-color: #2c1c0b;
+    background-color: #fdf1e2;
 }
 
 header{
@@ -18,7 +18,7 @@ header{
     padding-bottom: 0.5rem;
     justify-content: space-between;
     width: 100%;
-    height: 60px;
+    height: 50px;
     z-index: 100;
 }
 
@@ -26,9 +26,11 @@ header > #iconButton {
     width: 40px;
     height: 40px;
     font-size: 24px;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: white;
     transition: transform 0.3s ease;
 }
 
@@ -50,7 +52,26 @@ header > #openModalBtn {
 header > h2{
     color: #2c1c0b;
     font-size: 15px;
+    margin-top: 7px;
 }
+
+header > .bar-link{
+    display: none;
+
+}
+
+header > .bar-link > a{
+    text-decoration: none;
+    color: #2c1c0b;
+    font-size: 12px;
+    margin-top: 13px;
+}
+
+header > .bar-link > a:hover{
+    color: #442b10;
+    font-size: 13px;
+}
+
 header > #iconButton > i{
     color: #2c1c0b;
     margin-top: 4px;
@@ -59,9 +80,6 @@ header > #iconButton > i{
     transition: transform 0.3s ease;
 }
 
-header > #iconButton{
-    background-color: white;
-}
 
 nav > #menuList{
     position: fixed;
@@ -120,9 +138,33 @@ nav > #menuList.hide {
     object-fit: fill;
 }
 .section1 {
-    background-color: #bfa97a;
-    padding-top: 2rem;
+    padding-top: 4rem;
+    background-color: #fdf1e2;
+    padding-bottom: 1rem;
 }
+
+.section1 > .background-pic{
+    padding-top: 2rem;
+    margin: 0 auto;
+    width: 95%;
+    height: 230px;
+    box-shadow: inset 1000px 1000px 2000px rgba(0, 0, 0, 0.5) ;
+    background: url("/images/Flux_Dev_A_highly_detailed_intricately_illustrated_depiction_o_0.jpg") center;
+    background-size: cover;
+    border-radius: 5px;
+}
+
+.section1 > .background-pic > h3{
+    color: white;
+    text-align: center;
+}
+
+.section1 > .background-pic > p{
+    color: white;
+    text-align: center;
+    padding: 0 0.5rem;
+}
+
 .section1 > h2{
     padding-top: 1rem;
     margin-left: 1rem;
@@ -134,7 +176,7 @@ nav > #menuList.hide {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90%;
+    width: 100%;
     padding: 0.5rem 0;
     margin: 3rem auto;
 }
@@ -389,6 +431,48 @@ input.invalid{
     margin-bottom: 10px;
 } */
 
+@media (min-width: 768px) {
+    header > .bar-link{
+        display: flex;
+        flex-direction: row;
+        gap: 3px;
+        text-decoration: none;
+        justify-content: left;
+        width: 150px;
+    }
+    header > h2{
+        font-size: 18px;
+    }
+
+    .section1 > .background-pic{
+        padding-top: 4rem;
+        height: 400px;
+    }
+
+    .section2 > .row > .postContainer > .post {
+        flex-direction: row;
+        justify-content: left;
+        align-items: flex-start;
+        overflow-x: scroll;
+
+    }
+
+    .section2 > .row >.postContainer > .post > .postDiv{
+        padding: 1.5rem 0.5rem;
+        width: 250px;
+        margin-left: 2rem;
+    }
+
+    .section2 > .row >.postContainer > .post > .postDiv:hover{
+        width: 260px;
+        transition: transform 3s ease;
+    }
+
+    header > #iconButton{
+        display: none;
+    }
+
+}
 
 /* Responsive Adjustments */
 @media (max-width: 768px){

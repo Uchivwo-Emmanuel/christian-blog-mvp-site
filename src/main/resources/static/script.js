@@ -39,10 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
     const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalSpan = document.getElementById('closeModal');
 
     const closeModal = () => {
         modal.classList.remove('show');
     };
+
+    closeModalSpan.addEventListener('click', () => {
+        closeModal();
+    });
 
     const openModal = (title, bodyHTML) => {
         modalTitle.innerHTML = title;

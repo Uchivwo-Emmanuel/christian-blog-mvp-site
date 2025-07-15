@@ -1,11 +1,10 @@
 package org.example.rabbi.controller
 
 import org.example.rabbi.model.Category
-import org.example.rabbi.model.CategoryDTO
 import org.springframework.ui.Model
 import org.example.rabbi.repository.CategoryRepository
 import org.example.rabbi.repository.WebPostRepository
-import org.example.rabbi.service.PostService
+import org.example.rabbi.service.WebAppService
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
@@ -15,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/post")
 class GeneralController(
     private val categoryRepository: CategoryRepository,
-    private val postService: PostService,
+    private val webAppService: WebAppService,
     private val webPostRepository: WebPostRepository
 ) {
     @PostMapping("/categories")
@@ -25,7 +24,7 @@ class GeneralController(
         @RequestParam("image") image: MultipartFile
     ): ResponseEntity<out Any> {
         //save image
-        val imageFileName = postService.saveFileToUploadFolder(image)
+        val imageFileName = webAppService.saveFileToUploadFolder(image)
         val category = Category(
             id = null,
             title = title,
@@ -57,8 +56,7 @@ class GeneralController(
 
     @GetMapping("/")
     fun showCategories(model: Model): String {
-        val categories = categoryRepository.findAll()
-        model.addAttribute("categories", categoriesToDTO(categories,3))
+        model.addAttribute("categories", webAppService.categoriesToDTO(3))
         return "index" // This should match your HTML file name in templates (e.g., categories.html)
     }
 
@@ -70,17 +68,4 @@ class GeneralController(
         return "category-page"
     }
 
-    fun categoriesToDTO(categories: MutableList<Category>,
-                        numberOfTakes: Int): List<CategoryDTO> {
-        val categoryDTOs = categories.map {category ->
-            val limitedPosts = category.webPosts.take(numberOfTakes)
-            CategoryDTO(
-                id = category.id,
-                title = category.title,
-                imageUrl = category.imageName,
-                webPosts = limitedPosts
-            )
-        }
-        return categoryDTOs
-    }
 }

@@ -213,7 +213,7 @@ body {
 
     .keeper-image {
         width: 200px;
-        height: 200px;
+        height: 250px;
         border-width: 4px;
     }
 
@@ -233,8 +233,8 @@ body {
     }
 
     .keeper-image {
-        width: 180px;
-        height: 180px;
+        width: 200px;
+        height: 250px;
     }
 
     .back-button span {

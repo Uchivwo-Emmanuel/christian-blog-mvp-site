@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Admins | Rabbi's Scrolls</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/admin-management.css" />
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&family=Open+Sans&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <h2>Rabbi's Scrolls</h2>
+            <p class="slogan">Keeper of the Word</p>
+        </div>
+        <button id="closeSidebar" class="close-btn" aria-label="Close sidebar">
+            <i class="bi bi-x"></i>
+        </button>
+    </div>
+
+    <nav class="nav-menu">
+        <a href="/admin/admin-dashboard.html" class="nav-link">
+            <i class="bi bi-house-door"></i> <span>Dashboard</span>
+        </a>
+        <a href="/admin/manage-categories.html" class="nav-link">
+            <i class="bi bi-folder"></i> <span>Manage Categories</span>
+        </a>
+        <a href="/admin/manage-post.html" class="nav-link">
+            <i class="bi bi-journal-text"></i> <span>Manage Posts</span>
+        </a>
+        <a href="/admin/manage-admin.html" class="nav-link active">
+            <i class="bi bi-shield-lock"></i> <span>Manage Admins</span>
+        </a>
+        <a href="/admin/post-creation.html" class="nav-link">
+            <i class="bi bi-file-earmark-plus"></i> <span>New Post</span>
+        </a>
+        <a href="/admin/create-category.html" class="nav-link">
+            <i class="bi bi-folder-plus"></i> <span>New Category</span>
+        </a>
+        <a href="/admin/signup.html" class="nav-link">
+            <i class="bi bi-person-plus"></i> <span>Add Admin</span>
+        </a>
+        <a href="#" onclick="logout()" class="nav-link logout">
+            <i class="bi bi-box-arrow-right"></i> <span>Logout</span>
+        </a>
+    </nav>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content">
+    <header class="dashboard-header">
+        <!-- Hamburger Button (Mobile) -->
+        <button id="hamburger" class="hamburger-btn" aria-label="Open menu">
+            <i class="bi bi-list"></i>
+        </button>
+        <h1>Manage Admins</h1>
+        <div class="header-actions">
+            <button id="darkModeToggle" class="btn-icon" title="Toggle Dark Mode">
+                <i class="bi bi-moon-stars"></i>
+            </button>
+            <div class="profile">
+                <img src="/images/admin-avatar.jpg" alt="Profile" class="avatar" />
+            </div>
+        </div>
+    </header>
+
+    <!-- Admins List -->
+    <section class="admins-section">
+        <div class="section-header">
+            <h2>All Admins</h2>
+            <a href="/admin/signup.html" class="btn-create">
+                <i class="bi bi-person-plus"></i> New Admin
+            </a>
+        </div>
+
+        <div class="admins-grid" id="adminsGrid">
+            <!-- Admins loaded dynamically -->
+        </div>
+    </section>
+</main>
+
+<!-- Edit Admin Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <header class="modal-header">
+            <h3>Edit Admin</h3>
+            <button id="closeModal" class="close">&times;</button>
+        </header>
+        <form id="editAdminForm">
+            <input type="hidden" id="editAdminId" name="id" />
+
+            <div class="form-group">
+                <label for="editFirstName">First Name</label>
+                <input type="text" id="editFirstName" name="firstname" required />
+            </div>
+
+            <div class="form-group">
+                <label for="editLastName">Last Name</label>
+                <input type="text" id="editLastName" name="lastname" required />
+            </div>
+
+            <div class="form-group">
+                <label for="editEmail">Email</label>
+                <input type="email" id="editEmail" name="email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="editPassword">New Password (Optional)</label>
+                <input type="password" id="editPassword" name="password" placeholder="Leave blank to keep current" />
+            </div>
+
+            <!-- Profile Image Upload -->
+            <div class="form-group">
+                <label for="editAdminImage">New Profile Image (Optional)</label>
+                <input type="file" id="editAdminImage" name="adminImage" accept="image/*" />
+
+                <!-- Current Image Preview -->
+                <div id="currentImagePreview" class="image-preview" style="display: none;">
+                    <img id="currentImage" src="" alt="Current Image" />
+                    <small>Current profile image</small>
+                </div>
+
+                <!-- New Image Preview -->
+                <div id="newImagePreview" class="image-preview" style="display: none;">
+                    <img id="newImage" src="" alt="New Preview" />
+                    <button type="button" id="removeNewImage" class="remove-image">&times;</button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="cancelEdit" class="btn-cancel">Cancel</button>
+                <button type="submit" class="btn-update">
+                    <i class="bi bi-save"></i> Update Admin
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-body">
+            <h3>Delete Admin?</h3>
+            <p>Are you sure you want to delete "<span id="deleteAdminName"></span>"? This cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <button id="cancelDelete" class="btn-cancel">Cancel</button>
+            <button id="confirmDelete" class="btn-delete-confirm">Delete</button>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Footer -->
+<div class="mobile-footer">
+    <strong>Rabbi's Scrolls.</strong> For the glory of the King of Kings.
+</div>
+
+<!-- JavaScript -->
+<script src="/js/dashboard.js"></script>
+<script src="/js/admin-management.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

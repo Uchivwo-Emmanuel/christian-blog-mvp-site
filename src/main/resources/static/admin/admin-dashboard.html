@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Admin Dashboard | Rabbi's Scrolls</title>
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/dashboard.css" />
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+    <!-- In <head> -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css"
+          integrity="sha384-Q/b68FXi/uzI6bjcGbx7kHAobgdK2x1qOUrqdTvipaJci87t0PRovmYAIrCVE4x5"
+          crossorigin="anonymous"><body>
+
+
+
+<!-- Sidebar -->
+<aside id="sidebar" class="sidebar">
+        <!-- Sidebar Header with Close Button -->
+        <div class="sidebar-header">
+            <div class="logo">
+                <h2>Rabbi's Scrolls</h2>
+                <p class="slogan">Keeper of the Word</p>
+            </div>
+            <button id="closeSidebar" class="close-btn" aria-label="Close sidebar">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
+    <nav class="nav-menu">
+        <a href="/admin/admin-dashboard.html" class="nav-link active"><i class="bi bi-house-door"></i> <span>Dashboard</span></a>
+        <a href="/admin/manage-categories.html" class="nav-link"><i class="bi bi-folder"></i> <span>Manage Categories</span></a>
+        <a href="/admin/manage-post.html" class="nav-link"><i class="bi bi-journal-text"></i> <span>Manage Posts</span></a>
+        <a href="/admin/manage-admin.html" class="nav-link"><i class="bi bi-shield-lock"></i> <span>Manage Admins</span></a>
+        <a href="/admin/create-category.html" class="nav-link"><i class="bi bi-plus-circle"></i> <span>New Category</span></a>
+        <a href="/admin/post-creation.html" class="nav-link"><i class="bi bi-file-earmark-plus"></i> <span>New Post</span></a>
+        <a href="/admin/signup.html" class="nav-link"><i class="bi bi-person-plus"></i> <span>Add Admin</span></a>
+        <a href="#" onclick="logout()" class="nav-link logout"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a>
+    </nav>
+</aside>
+
+<!-- Overlay (for closing sidebar) -->
+<div id="overlay" class="overlay"></div>
+
+<!-- Main Content -->
+<main class="main-content">
+    <header class="dashboard-header">
+        <!-- Hamburger Button -->
+        <button id="hamburger" class="hamburger-btn">
+            <i class="bi bi-list"></i>
+        </button>
+        <h1>Admin Dashboard</h1>
+        <div class="header-actions">
+            <button id="darkModeToggle" class="btn-icon"><i class="bi bi-moon-stars"></i></button>
+            <div class="profile"><img src="/images/admin-avatar.jpg" alt="Profile" class="avatar" /></div>
+        </div>
+    </header>
+
+    <section class="welcome-panel">
+        <h2>Welcome, <span th:text="${adminName}">Admin</span></h2>
+        <p>You have full control over content and users. Use it wisely.</p>
+    </section>
+
+    <section class="quick-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-buttons">
+            <a href="/admin/create-category.html" class="action-btn create-category"><i class="bi bi-folder-plus"></i> New Category</a>
+            <a href="/admin/post-creation.html" class="action-btn create-post"><i class="bi bi-journal-plus"></i> New Post</a>
+            <a href="/admin/signup.html" class="action-btn create-admin"><i class="bi bi-person-plus-fill"></i> Add Admin</a>
+        </div>
+    </section>
+
+    <section class="stats-grid">
+        <div class="stat-card total-categories"><i class="bi bi-folder"></i><div><h3>Categories</h3><p th:text="${totalCategories}">0</p></div></div>
+        <div class="stat-card total-posts"><i class="bi bi-journal-text"></i><div><h3>Posts</h3><p th:text="${totalPosts}">0</p></div></div>
+        <div class="stat-card total-admins"><i class="bi bi-shield-lock"></i><div><h3>Admins</h3><p th:text="${totalAdmins}">0</p></div></div>
+        <div class="stat-card last-updated"><i class="bi bi-clock"></i><div><h3>Last Update</h3><p th:text="${#temporals.format(lastUpdated, 'MMM dd, yyyy')}">-</p></div></div>
+    </section>
+
+    <section class="recent-section">
+        <h2>Recent Items</h2>
+        <div class="recent-list">
+            <h3>Categories</h3>
+            <ul th:if="${not #lists.isEmpty(recentCategories)}" th:each="cat : ${recentCategories}">
+                <li><strong th:text="${cat.title}"></strong><span class="actions"><a th:href="@{/admin/edit-category(id=${cat.id})}" class="edit">Edit</a><a th:href="@{/admin/delete-category(id=${cat.id})}" class="delete" onclick="return confirm('Delete?')">Delete</a></span></li>
+            </ul>
+            <p th:if="${#lists.isEmpty(recentCategories)}" class="empty">No categories yet.</p>
+        </div>
+        <div class="recent-list">
+            <h3>Posts</h3>
+            <ul th:if="${not #lists.isEmpty(recentPosts)}" th:each="post : ${recentPosts}">
+                <li><strong th:text="${post.title}"></strong><span th:text="${#temporals.format(post.createdOn, 'MMM dd')}"></span><span class="actions"><a th:href="@{/admin/edit-post(id=${post.id})}" class="edit">Edit</a><a th:href="@{/admin/delete-post(id=${post.id})}" class="delete" onclick="return confirm('Delete?')">Delete</a></span></li>
+            </ul>
+            <p th:if="${#lists.isEmpty(recentPosts)}" class="empty">No posts yet.</p>
+        </div>
+        <div class="recent-list">
+            <h3>Admins</h3>
+            <ul th:if="${not #lists.isEmpty(recentAdmins)}" th:each="admin : ${recentAdmins}">
+                <li><strong th:text="${admin.firstName + ' ' + admin.lastName}"></strong><span th:text="${admin.appUserEmail}"></span><span class="actions"><a th:href="@{/admin/edit-admin(id=${admin.appUserId})}" class="edit">Edit</a><a th:href="@{/admin/delete-admin(id=${admin.appUserId})}" class="delete" onclick="return confirm('Revoke?')">Revoke</a></span></li>
+            </ul>
+            <p class="empty">No additional admins.</p>
+        </div>
+    </section>
+</main>
+
+<!-- Mobile Footer -->
+<div class="mobile-footer">
+    <strong>Rabbi's Scrolls.</strong> For the glory of the King of Kings.
+</div>
+
+<!-- JavaScript -->
+<script src="/js/dashboard.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

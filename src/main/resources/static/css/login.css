@@ -1,0 +1,276 @@
+/* ==================== BASE & BACKGROUND ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f1a 100%); /* Deep royal blue, like night sky */
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    color: #e8dcc5;
+    /* Overlay for depth */
+    background-blend-mode: overlay;
+}
+
+/* Optional: Subtle gradient over background */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(ellipse at center, rgba(30, 30, 40, 0.92) 0%, rgba(10, 10, 20, 0.98) 100%);
+    z-index: -1;
+}
+
+/* ==================== LOGIN CONTAINER ==================== */
+.login-container {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    padding: 0 15px;
+    z-index: 10;
+}
+
+/* ==================== HEADER ==================== */
+.login-header h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: 2.6rem;
+    color: #f5e9c9;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(230, 126, 34, 0.4);
+    font-weight: 600;
+}
+
+.login-header .slogan {
+    font-style: italic;
+    font-size: 1rem;
+    color: #c9b78c;
+    margin-bottom: 40px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+/* ==================== LOGIN CARD - PARCHMENT SCROLL ==================== */
+.login-card {
+    background: linear-gradient(145deg, #f3e9d2, #e6d9bb);
+    border-radius: 20px;
+    padding: 50px 40px;
+    box-shadow:
+            0 15px 35px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(230, 126, 34, 0.2) inset;
+    border: 2px solid #c8a97e;
+    position: relative;
+    text-align: left;
+    max-width: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23f3e9d2" width="100" height="100"/><path d="M0,0 L100,100 M10,0 L110,100 M20,0 L120,100 M0,10 L100,110 M0,20 L100,120" stroke="%23d8c8a8" stroke-width="0.5" opacity="0.3"/></svg>');
+    background-size: 150px;
+    animation: parchmentGlow 4s ease-in-out infinite alternate;
+}
+
+/* Subtle parchment glow animation */
+@keyframes parchmentGlow {
+    0% { box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 20px rgba(230, 126, 34, 0.1) inset; }
+    100% { box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 28px rgba(230, 126, 34, 0.25) inset; }
+}
+
+/* Scroll Top Seal */
+.login-card::before {
+    content: "✠";
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 32px;
+    color: #e67e22;
+    text-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+/* ==================== ADMIN BADGE ==================== */
+.admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #8b4513;
+    color: #f5e9c9;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 8px 18px;
+    border-radius: 30px;
+    margin-bottom: 25px;
+    border: 1px solid #a67c52;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    letter-spacing: 1px;
+}
+
+.admin-badge i {
+    color: #e67e22;
+    font-size: 1.2rem;
+    filter: drop-shadow(0 0 4px rgba(230, 126, 34, 0.5));
+}
+
+/* ==================== HEADING ==================== */
+.login-card h2 {
+    font-family: 'EB Garamond', serif;
+    color: #5d4037;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.login-card p {
+    color: #6b4c33;
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* ==================== FORM FIELDS ==================== */
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.95rem;
+    color: #5d4037;
+    margin-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #c8a97e;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background: #fdf9f0;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #e67e22;
+    background: white;
+    box-shadow:
+            0 0 0 3px rgba(230, 126, 34, 0.1),
+            inset 0 2px 8px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+/* ==================== SUBMIT BUTTON ==================== */
+.login-button {
+    background: linear-gradient(to bottom, #e67e22, #d35400);
+    color: white;
+    border: none;
+    padding: 15px 22px;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.8px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-button:hover {
+    background: linear-gradient(to bottom, #da9f22, #fa9e22);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.login-button::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(30deg);
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+.login-button:hover::after {
+    opacity: 1;
+}
+
+.login-button i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* ==================== ERROR MESSAGE ==================== */
+.error-message {
+    background: #e74c3c;
+    color: white;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    margin-top: 22px;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    border: 1px solid #c43a2b;
+    animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
+/* ==================== FOOTER ==================== */
+.login-footer {
+    margin-top: 45px;
+    font-size: 0.85rem;
+    color: #c9b78c;
+    text-align: center;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.login-footer p {
+    margin: 3px 0;
+}
+
+/* ==================== CANDLE FLAME (Optional Decoration) ==================== */
+.candle {
+    width: 4px;
+    height: 15px;
+    background: #f9c80e;
+    margin: 10px auto;
+    border-radius: 50% 50% 2px 2px;
+    box-shadow:
+            0 0 8px #f9c80e,
+            0 0 16px #f9c80e,
+            0 0 24px #f9c80e;
+    animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.8; transform: scaleY(0.9) rotate(1deg); }
+}

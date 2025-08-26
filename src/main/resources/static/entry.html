@@ -1,0 +1,75 @@
+<!-- src/main/resources/static/entry.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Authenticating...</title>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #e8dcc5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .spinner {
+            border: 4px solid rgba(230, 126, 34, 0.3);
+            border-left: 4px solid #e67e22;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="spinner"></div>
+    <p>Authenticating...</p>
+</div>
+
+<script>
+    // 1. Get JWT from localStorage
+    const token = localStorage.getItem("jwtToken");
+
+    if (!token) {
+        console.warn("No JWT found in localStorage");
+        window.location.href = "/admin/login.html";
+    } else {
+        console.log("JWT found, validating with server...");
+
+        fetch("/api/validate-token", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("jwtToken"),
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => {
+                if (res.ok) {
+                    console.log("Token valid → redirecting to dashboard");
+                    window.location.href = "/admin/admin-dashboard.html";
+                } else {
+                    console.warn("Token invalid or expired:", res.status);
+                    localStorage.removeItem("jwtToken");
+                    window.location.href = "/admin/login.html";
+                }
+            })
+            .catch(err => {
+                console.error("Auth validation failed:", err);
+                localStorage.removeItem("jwtToken");
+                window.location.href = "/admin/login.html";
+            });
+    }
+</script>
+</body>
+</html>

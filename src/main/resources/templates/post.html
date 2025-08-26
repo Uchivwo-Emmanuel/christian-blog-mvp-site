@@ -1,24 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${post.title}"></title>
-    <link rel="stylesheet" th:href="@{/post.css}">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${post.title}">Rabbi's Scrolls</title>
 
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/images/cropped-rabbi-fevicon.jpg}" type="image/jpg" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/post.css}" />
+
+    <!-- Font: EB Garamond for sacred, readable text -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" th:content="${post.introduction}">
+    <meta property="og:title" th:content="${post.title}">
+    <meta property="og:description" th:content="${#strings.abbreviate(post.introduction, 160)}">
+    <meta property="og:type" content="article">
+    <meta property="og:image" th:content="@{'/uploads/' + ${post.titleImageName}}">
 </head>
 <body>
-<div class="container" >
-    <h1 id="postTitle" th:text="${post.title}">Loading...</h1>
-    <img id="postTitleImage" class="title-image" th:src="'/uploads/'+${post.titleImageName}" alt="">
-    <p id="pointIntro" th:text="${post.introduction}"></p>
-    <div id="pointsContainer" th:each="point: ${post.points}">
-        <h3 th:text="${point.pointHeading}"></h3>
-        <img th:src="'/uploads/' + ${point.pointImageName}" alt="">
-        <p th:text="${point.pointBody}"></p>
-    </div>
+
+<!-- Back to Home -->
+<div class="breadcrumb">
+    <a href="/">&larr; Home</a>
 </div>
+
+<!-- Main Post Content -->
+<main class="post-container">
+    <!-- Title -->
+    <h1 class="post-title" th:text="${post.title}">Post Title</h1>
+
+    <!-- Featured Image -->
+    <figure class="post-featured-image">
+        <img th:src="@{'/uploads/' + ${post.titleImageName}}"
+             th:alt="${post.title}"
+             onerror="this.onerror=null; this.src='/images/default-post.jpg';" />
+        <figcaption class="image-caption">Glory to the King of Kings</figcaption>
+    </figure>
+
+    <!-- Introduction -->
+    <section class="post-intro" th:if="${post.introduction}">
+        <p th:text="${post.introduction}"></p>
+    </section>
+
+    <!-- Points (Sections) -->
+    <div class="post-body">
+        <div th:each="point : ${post.points}" class="post-point">
+            <h3 class="point-heading" th:text="${point.pointHeading}">Section Title</h3>
+
+            <!-- Optional Image -->
+            <div class="point-image" th:if="${point.pointImageName}">
+                <img th:src="@{'/uploads/' + ${point.pointImageName}}"
+                     th:alt="${point.pointHeading}"
+                     onerror="this.onerror=null; this.src='/images/default-content.jpg';" />
+            </div>
+
+            <!-- Body Text -->
+            <p class="point-body" th:text="${point.pointBody}">Content goes here...</p>
+        </div>
+    </div>
+
+    <!-- No Content Fallback -->
+    <div class="no-points" th:if="${#lists.isEmpty(post.points)}">
+        <p>This post has no additional sections yet. Please check back soon.</p>
+    </div>
+</main>
+
+<!-- Scripture Footer -->
+<footer class="post-footer">
+    <p>"Thy word is a lamp unto my feet and a light unto my path." — Psalm 119:105</p>
+    <p>&copy; <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Rabbi's Scrolls. All rights reserved.</p>
+</footer>
+
+<!-- Optional JavaScript -->
 <script th:src="@{/post.js}"></script>
 </body>
 </html>

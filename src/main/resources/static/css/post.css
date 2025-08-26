@@ -1,0 +1,191 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'EB Garamond', serif;
+    background: #fdfcfb;
+    color: #333;
+    line-height: 1.8;
+    padding: 0;
+    margin: 0;
+}
+
+/* ==================== BREADCRUMB ==================== */
+.breadcrumb {
+    max-width: 800px;
+    margin: 30px auto 10px;
+    padding: 0 20px;
+}
+
+.breadcrumb a {
+    color: #e67e22;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+    color: #d35400;
+    text-decoration: underline;
+}
+
+/* ==================== POST CONTAINER ==================== */
+.post-container {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+}
+
+/* ==================== POST TITLE ==================== */
+.post-title {
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+    margin: 20px 0 30px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+}
+
+/* ==================== FEATURED IMAGE ==================== */
+.post-featured-image {
+    margin: 20px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid #e67e22;
+}
+
+.post-featured-image img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.post-featured-image img:hover {
+    transform: scale(1.03);
+}
+
+.image-caption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* ==================== INTRODUCTION ==================== */
+.post-intro {
+    font-size: 1.2rem;
+    color: #444;
+    margin: 20px 0;
+    text-align: center;
+    font-style: italic;
+    padding: 0 10px;
+}
+
+.post-intro p {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ==================== POST BODY ==================== */
+.post-body {
+    margin-top: 40px;
+}
+
+.post-point {
+    margin-bottom: 48px;
+}
+
+.point-heading {
+    font-size: 1.6rem;
+    color: #e67e22;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 6px;
+    font-weight: 600;
+}
+
+.point-image {
+    margin: 16px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    /*box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);*/
+}
+
+.point-image img {
+    width: 80%;
+    min-height: 200px;
+    height: auto;
+    aspect-ratio: 16 / 9; /* Enforces consistent proportions */
+    object-fit: cover;
+    object-position: center;
+    border: 2px solid #e67e22;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    display: block;
+    background: #1a1a2e;
+}
+
+.point-body {
+    font-size: 1.1rem;
+    color: #34495e;
+    margin: 14px 0;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+/* ==================== NO CONTENT ==================== */
+.no-points {
+    text-align: center;
+    font-style: italic;
+    color: #95a5a6;
+    padding: 30px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    margin: 30px 0;
+}
+
+/* ==================== FOOTER ==================== */
+.post-footer {
+    text-align: center;
+    padding: 50px 20px;
+    background: #2c3e50;
+    color: #ecf0f1;
+    font-size: 1rem;
+    border-top: 4px solid #e67e22;
+}
+
+.post-footer p {
+    margin: 8px 0;
+}
+
+/* ==================== Fallback Image Style ==================== */
+img[onerror] {
+    background: #f0f0f0;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 768px) {
+    .post-title {
+        font-size: 2rem;
+    }
+
+    .post-featured-image,
+    .point-image img {
+        height: 220px;
+    }
+
+    .breadcrumb,
+    .post-container {
+        padding: 0 16px;
+    }
+}

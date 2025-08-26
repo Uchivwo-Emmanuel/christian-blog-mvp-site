@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Rabbi's Scrolls</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" th:href="@{/css/about.css}" />
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" />
+
+</head>
+<body>
+
+<!-- Back Button -->
+<a th:href="@{/}" class="back-button">
+  <i class="bi bi-arrow-left"></i>
+  <span>Return to Home</span>
+</a>
+
+<!-- Main Content -->
+<main class="about-page">
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1>About Rabbi's Scrolls</h1>
+    <p class="subtitle">A blog built to preserve and proclaim truth.</p>
+  </header>
+
+  <!-- Keeper Section -->
+  <section class="keeper-section">
+    <div class="keeper-content">
+      <!-- Large Circular Image -->
+      <div class="keeper-image">
+        <img src="/images/Admin.JPG" th:src="@{/images/Admin.JPG}" alt="The Keeper of the Scrolls" />
+      </div>
+
+      <!-- Text -->
+      <div class="keeper-text">
+        <p>
+          <strong>Rabbi's Scrolls</strong> was created as a digital archive of biblical teachings, doctrinal insights, and pastoral reflections — a modern scroll for a new generation.
+        </p>
+        <p>
+          Inspired by the command to "guard the deposit entrusted to you" (<em>1 Timothy 6:20</em>), this site is designed to be a reliable, secure, and enduring resource for seekers and teachers alike.
+        </p>
+        <p>
+          It stands as a watchtower — not of human wisdom, but of divine truth — where clarity, order, and reverence guide every post.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision -->
+  <section class="section">
+    <h2>The Vision</h2>
+    <p>
+      This blog exists to preserve and proclaim timeless truths in a digital age. Every article is written with the conviction that Scripture is "living and active" (<em>Hebrews 4:12</em>), and that the Word of God must be handled with care, precision, and reverence.
+    </p>
+  </section>
+
+  <!-- Technical Foundation -->
+  <section class="section">
+    <h2>Technical Foundation</h2>
+    <p>
+      Behind the sacred words is a modern, secure, and scalable web application built with the following technologies:
+    </p>
+    <ul class="tech-list">
+      <li><strong>Frontend:</strong> HTML5, CSS3 (custom parchment theme), JavaScript (ES6+), Bootstrap Icons</li>
+      <li><strong>Backend:</strong> Spring Boot (Kotlin), Spring Security, Thymeleaf, JPA/Hibernate</li>
+      <li><strong>Authentication:</strong> JWT (stateless), Role-Based Access Control (ADMIN only)</li>
+      <li><strong>Database:</strong> PostgreSQL (relational, ACID-compliant)</li>
+      <li><strong>Deployment:</strong> Embedded Tomcat, HTTPS-ready</li>
+    </ul>
+  </section>
+
+  <!-- Design & Aesthetics -->
+  <section class="section">
+    <h2>Design & Aesthetics</h2>
+    <p>
+      The visual design draws from ancient parchment and candlelight — soft cream backgrounds, gold accents, serif typography (<em>EB Garamond</em>), and subtle gradients evoke a sense of reverence and timelessness.
+    </p>
+    <p>
+      Every UI element is hand-crafted to reflect the sacred nature of the content — no distractions, only clarity.
+    </p>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>&copy; <span>2025</span> Rabbi's Scrolls. For the glory of the King of Kings.</p>
+</footer>
+
+</body>
+</html>

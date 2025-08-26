@@ -9,5 +9,7 @@ class WebConfig : WebMvcConfigurer {
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
         registry.addResourceHandler("/uploads/**")
             .addResourceLocations("file:uploads/")
+        registry.addResourceHandler("/images/**")
+            .addResourceLocations("classpath:/static/images/")
     }
 }

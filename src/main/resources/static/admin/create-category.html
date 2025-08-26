@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Category | Rabbi's Scrolls</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/create-category.css" />
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&family=Open+Sans&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <h2>Rabbi's Scrolls</h2>
+            <p class="slogan">Keeper of the Word</p>
+        </div>
+        <button id="closeSidebar" class="close-btn" aria-label="Close sidebar">
+            <i class="bi bi-x"></i>
+        </button>
+    </div>
+
+    <nav class="nav-menu">
+        <a href="/admin/admin-dashboard.html" class="nav-link">
+            <i class="bi bi-house-door"></i> <span>Dashboard</span>
+        </a>
+        <a href="/admin/manage-categories.html" class="nav-link">
+            <i class="bi bi-folder"></i> <span>Manage Categories</span>
+        </a>
+        <a href="/admin/manage-post.html" class="nav-link">
+            <i class="bi bi-journal-text"></i> <span>Manage Posts</span>
+        </a>
+        <a href="/admin/manage-admin.html" class="nav-link">
+            <i class="bi bi-shield-lock"></i> <span>Manage Admins</span>
+        </a>
+        <a href="/admin/post-creation.html" class="nav-link">
+            <i class="bi bi-file-earmark-plus"></i> <span>New Post</span>
+        </a>
+        <a href="/admin/create-category.html" class="nav-link active">
+            <i class="bi bi-folder-plus"></i> <span>New Category</span>
+        </a>
+        <a href="/admin/signup.html" class="nav-link">
+            <i class="bi bi-person-plus"></i> <span>Add Admin</span>
+        </a>
+        <a href="#" onclick="logout()" class="nav-link logout">
+            <i class="bi bi-box-arrow-right"></i> <span>Logout</span>
+        </a>
+    </nav>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content">
+    <header class="dashboard-header">
+        <!-- Hamburger Button (Mobile) -->
+        <button id="hamburger" class="hamburger-btn" aria-label="Open menu">
+            <i class="bi bi-list"></i>
+        </button>
+        <h1>Create New Category</h1>
+        <div class="header-actions">
+            <button id="darkModeToggle" class="btn-icon" title="Toggle Dark Mode">
+                <i class="bi bi-moon-stars"></i>
+            </button>
+            <div class="profile">
+                <img src="/images/admin-avatar.jpg" alt="Profile" class="avatar" />
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Form -->
+    <section class="form-section">
+        <form id="categoryForm" class="category-form">
+            <div class="form-group">
+                <label for="title">Category Title</label>
+                <input type="text" id="title" name="title" required />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="5" placeholder="Brief description of the category..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Upload Image (Optional)</label>
+                <input type="file" id="image" name="image" accept="image/*" />
+                <div id="imagePreview" class="image-preview" style="display: none;">
+                    <img id="previewImg" src="" alt="Preview" />
+                    <button type="button" id="removeImage" class="remove-image">&times;</button>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="bi bi-folder-plus"></i> Create Category
+            </button>
+
+            <!-- Success Message -->
+            <div id="successMsg" class="success-message" style="display: none;">
+                ✅ Category created successfully!
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMsg" class="error-message" style="display: none;"></div>
+        </form>
+    </section>
+</main>
+
+<!-- Mobile Footer -->
+<div class="mobile-footer">
+    <strong>Rabbi's Scrolls.</strong> For the glory of the King of Kings.
+</div>
+
+<!-- JavaScript -->
+<script src="/js/dashboard.js"></script>
+<script src="/js/create-category.js"></script>
+<script src="/js/auth.js"></script>
+
+</body>
+</html>

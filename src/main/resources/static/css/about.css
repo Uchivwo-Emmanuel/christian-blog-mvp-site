@@ -1,0 +1,255 @@
+/* ==================== RESET & BASE ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: #fdfcfb; /* Warm parchment */
+    color: #333;
+    line-height: 1.8;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* ==================== BACK BUTTON ==================== */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 30px 20px 0;
+    padding: 10px 16px;
+    font-size: 1.05rem;
+    color: #e67e22;
+    text-decoration: none;
+    font-weight: 500;
+    border-left: 3px solid #e67e22;
+    background: #f9f5f0;
+    border-radius: 0 8px 8px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.back-button:hover {
+    background: #f0e8d8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    color: #d35400;
+}
+
+.back-button i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover i {
+    transform: translateX(-3px);
+}
+
+/* ==================== PAGE HEADER ==================== */
+.page-header {
+    text-align: center;
+    padding: 20px 20px 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: 2.6rem;
+    color: #8b5a2b;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.page-header .subtitle {
+    color: #a0522d;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* ==================== KEEPER SECTION ==================== */
+.keeper-section {
+    max-width: 900px;
+    margin: 0 auto 50px;
+    padding: 0 20px;
+}
+
+.keeper-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    justify-content: center;
+}
+
+.keeper-image {
+    flex: 0 0 240px;
+    width: 240px;
+    height: 240px;
+    border: 5px solid #e67e22;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(230, 126, 34, 0.3);
+    background: #fdfcfb;
+    transition: all 0.5s ease;
+}
+
+.keeper-image:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 16px 40px rgba(230, 126, 34, 0.4);
+}
+
+.keeper-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.keeper-text {
+    flex: 1;
+    min-width: 280px;
+    max-width: 500px;
+    font-size: 1.1rem;
+    color: #34495e;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.keeper-text em {
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* ==================== SECTIONS ==================== */
+.section {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+
+.section h2 {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.7rem;
+    color: #8b5a2b;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e67e22;
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+.section p {
+    font-size: 1.1rem;
+    color: #34495e;
+    line-height: 1.8;
+    margin-bottom: 16px;
+    text-align: justify;
+}
+
+/* ==================== TECH LIST ==================== */
+.tech-list {
+    list-style: none;
+    padding-left: 20px;
+    margin: 20px 0;
+}
+
+.tech-list li {
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 24px;
+    color: #34495e;
+    font-size: 1.05rem;
+}
+
+.tech-list li::before {
+    content: "•";
+    color: #e67e22;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    font-size: 1.3rem;
+}
+
+.tech-list code {
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95rem;
+    color: #2c3e50;
+}
+
+/* ==================== FOOTER ==================== */
+.site-footer {
+    text-align: center;
+    padding: 40px 20px;
+    background: #8b5a2b;
+    color: #f5e9c9;
+    font-size: 0.95rem;
+    font-style: italic;
+    border-top: 4px solid #e67e22;
+    margin-top: 60px;
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .keeper-content {
+        gap: 24px;
+    }
+
+    .keeper-image {
+        width: 200px;
+        height: 200px;
+        border-width: 4px;
+    }
+
+    .section h2 {
+        font-size: 1.5rem;
+    }
+
+    .back-button {
+        margin: 20px 16px 0;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header h1 {
+        font-size: 1.9rem;
+    }
+
+    .keeper-image {
+        width: 180px;
+        height: 180px;
+    }
+
+    .back-button span {
+        display: none;
+    }
+
+    .back-button {
+        padding: 10px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+    }
+
+    .back-button i {
+        font-size: 1.3rem;
+    }
+}

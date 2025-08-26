@@ -18,6 +18,8 @@ class WebPost(
     var points: MutableList<PostPoint> = mutableListOf(),
     @ManyToOne @JsonIgnore
     var category: Category? = null,
+    @ManyToOne
+    var appUser: AppUser? = null,
     @CreationTimestamp
     var createdOn: LocalDateTime? = null,
     @UpdateTimestamp

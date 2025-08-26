@@ -1,25 +1,66 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/category.css}">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-    <title th:text="${category.title}">Category</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${pageTitle}">Rabbi's Scrolls</title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/images/cropped-rabbi-fevicon.jpg}" type="image/jpg" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/category.css}"/>
+
+    <!-- Font: EB Garamond for sacred, readable text -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
 </head>
 <body>
+
+<!-- Header Banner -->
 <header class="category-header">
-    <h1 th:text="${category.title}"></h1>
-    <img th:src="@{'/uploads/' + ${category.imageName}}" class="category-image" alt="Category Image">
-    <p th:text="${category.description}" class="description"></p>
-    <h2>Reads In this Category</h2>
-</header>
-<div class="posts-container">
-    <div th:each="post : ${posts}" class="post-card">
-        <img th:src="@{'/uploads/' + ${post.titleImageName}}" alt="Post Image">
-        <h6 th:text="${post.title}"></h6>
+    <div class="header-content">
+        <h1 th:text="${category.title}"></h1>
+        <p class="category-description" th:text="${category.description}"></p>
+        <div class="scripture-verse">
+            <em>“Thy word is a lamp unto my feet and a light unto my path.” — Psalm 119:105</em>
+        </div>
     </div>
-</div>
+    <img th:src="@{'/uploads/' + ${category.imageName}}"
+         th:alt="${category.title}"
+         class="category-image"
+         onerror="this.src='/images/default-category.jpg';" />
+</header>
+
+<!-- Posts Grid -->
+<main class="posts-container">
+    <h2 class="section-title">Reads in This Category</h2>
+    <div class="posts-grid">
+        <a th:each="post : ${posts}"
+           th:href="@{/view-post/{id}(id=${post.id})}"
+           class="post-card">
+            <img th:src="@{'/uploads/' + ${post.titleImageName}}"
+                 th:alt="${post.title}"
+                 class="post-image"
+                 onerror="this.onerror=null; this.src='/images/default-post.jpg';" />
+            <div class="post-content">
+                <h3 th:text="${post.title}"></h3>
+                <p th:text="${#strings.abbreviate(post.introduction, 100)} ?: 'Continue reading...'"></p>
+            </div>
+        </a>
+    </div>
+
+    <!-- No Posts Fallback -->
+    <div class="no-posts" th:if="${#lists.isEmpty(posts)}">
+        <p>No posts have been published in this category yet. Check back soon.</p>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="category-footer">
+    <p>&copy; <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Rabbi's Scrolls. All rights reserved.</p>
+</footer>
+
+<!-- Optional: Add simple JS for future interactivity -->
 <script th:src="@{/category.js}"></script>
 </body>
 </html>

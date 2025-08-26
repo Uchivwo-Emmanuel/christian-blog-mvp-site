@@ -1,0 +1,269 @@
+/* ==================== ADMIN BADGE WITH FLAME ==================== */
+.admin-badge {
+    background: rgba(230, 126, 34, 0.2);
+    color: #e67e22;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(230, 126, 34, 0.3);
+    justify-content: center;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    max-width: 600px;
+    margin: 24px auto;
+}
+
+.admin-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(230, 126, 34, 0.2);
+    border-color: rgba(230, 126, 34, 0.5);
+}
+
+/* ==================== FLICKERING FLAME ANIMATION ==================== */
+.flame-icon {
+    font-size: 1.4rem;
+    color: #f9ca24;
+    text-shadow:
+            0 0 10px rgba(249, 202, 36, 0.6),
+            0 0 20px rgba(249, 202, 36, 0.5),
+            0 0 30px rgba(249, 202, 36, 0.4);
+    animation: flicker 1.5s ease infinite alternate;
+    transition: transform 0.3s ease;
+}
+
+.flame-icon:hover {
+    transform: rotate(10deg) scale(1.1);
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        text-shadow:
+                0 0 10px rgba(249, 202, 36, 0.6),
+                0 0 20px rgba(249, 202, 36, 0.5),
+                0 0 30px rgba(249, 202, 36, 0.4);
+    }
+    20%, 24%, 55% {
+        opacity: 0.7;
+        transform: scale(1.05) rotate(1deg);
+        text-shadow:
+                0 0 5px rgba(249, 202, 36, 0.4),
+                0 0 10px rgba(249, 202, 36, 0.3);
+    }
+    30%, 40%, 50% {
+        opacity: 0.9;
+        transform: scale(0.98) rotate(-1deg);
+        text-shadow:
+                0 0 15px rgba(249, 202, 36, 0.5),
+                0 0 25px rgba(249, 202, 36, 0.4);
+    }
+}
+
+/* ==================== SIGNUP SECTION ==================== */
+.signup-section {
+    background: var(--bg-card);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.signup-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+    border-color: rgba(230, 126, 34, 0.5);
+}
+
+/* ==================== FORM STYLES ==================== */
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: #c9b78c;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #f5e9c9;
+    font-size: 0.95rem;
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #e67e22;
+    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.01);
+}
+
+/* ==================== IMAGE UPLOAD PREVIEW ==================== */
+.image-preview {
+    margin-top: 12px;
+    position: relative;
+    display: inline-block;
+}
+
+.image-preview img {
+    max-width: 100px;
+    border-radius: 12px;
+    border: 2px solid #e67e22;
+    box-shadow: 0 0 15px rgba(230, 126, 34, 0.3);
+}
+
+.remove-image {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 24px;
+    height: 24px;
+    background: #e74c3c;
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.remove-image:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+}
+
+/* ==================== SUCCESS & ERROR MESSAGES ==================== */
+.success-message {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-size: 0.95rem;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.5s ease;
+}
+
+.error-message {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-size: 0.95rem;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    backdrop-filter: blur(4px);
+    animation: shake 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* ==================== SUBMIT BUTTON ==================== */
+.submit-btn {
+    background: linear-gradient(to right, #e67e22, #d35400);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to right, #e8832f, #d95b09);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Glow effect on hover */
+.submit-btn::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    border-radius: 12px;
+}
+
+.submit-btn:hover::after {
+    opacity: 1;
+}
+
+/* ==================== RESPONSIVE: MOBILE ==================== */
+@media (max-width: 768px) {
+    .signup-section {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .admin-badge {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+    }
+
+    .flame-icon {
+        font-size: 1.3rem;
+    }
+}

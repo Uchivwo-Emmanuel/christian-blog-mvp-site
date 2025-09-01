@@ -70,6 +70,26 @@ class ControllerForRestApi(
             "categories" to categoryDTOs
         ))
     }
+    @PostMapping("/create-category")
+    fun createCategory(
+        @RequestParam title: String,
+        @RequestParam description: String,
+        @RequestParam("image") image: MultipartFile
+    ): ResponseEntity<out Any> {
+        //save image
+        val imageFileName = webAppService.saveFileToUploadFolder(image)
+        val category = Category(
+            id = null,
+            title = title,
+            description = description,
+            imageName = imageFileName
+        )
+        val savedCategory = categoryRepository.save(category)
+
+        return ResponseEntity.ok(mapOf(
+            "saved Category" to savedCategory
+        ))
+    }
 
     @GetMapping("/posts")
     fun getAllPosts(): ResponseEntity<out Any> {

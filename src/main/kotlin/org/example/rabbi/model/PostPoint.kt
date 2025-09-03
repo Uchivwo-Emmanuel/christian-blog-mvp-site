@@ -7,18 +7,33 @@ import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
+@Table(name = "post_point")
 class PostPoint(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long?,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    val id: Long? = null,
+
+    @Column(name = "point_heading", nullable = false)
     var pointHeading: String? = null,
+
     @Lob
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "point_body", columnDefinition = "TEXT")
     var pointBody: String? = null,
-    @ManyToOne @JsonIgnore
-    var post: WebPost? = null,
+
+    @Column(name = "point_image_name")
     var pointImageName: String? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    @JsonIgnore
+    var webPost: WebPost? = null,
+
     @CreationTimestamp
-    var createdOn: LocalDateTime? = null,
+    @Column(name = "created_on", nullable = false)
+    val createdOn: LocalDateTime? = null,
+
     @UpdateTimestamp
+    @Column(name = "updated_on", nullable = false)
     var updatedOn: LocalDateTime? = null
 )

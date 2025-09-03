@@ -54,7 +54,7 @@ class ControllerForRestApi(
                         introduction = post.introduction,
                         categoryName = category.title ?: "Uncategorized",
                         titleImageName = post.titleImageName,
-                        createdOn = post.createdOn?.toString(),
+                        createdOn = post.createdOn.toString(),
                         points = post.points.map { p ->
                             PostPointDTO(
                                 pointTitle = p.pointHeading ?: "",
@@ -119,12 +119,38 @@ class ControllerForRestApi(
 
 
     @PostMapping("/create-post", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    fun createPost(@RequestParam title: String,
-                   @RequestParam introduction: String,
-                   @RequestParam("titleImage") titleImage: MultipartFile,
-                   @RequestParam categoryName: String,
-                   request: MultipartHttpServletRequest): ResponseEntity<out Any> {
+    fun createPost(
+        @RequestParam title: String,
+        @RequestParam introduction: String,
+        @RequestParam("titleImage") titleImage: MultipartFile,
+        @RequestParam categoryName: String,
+        request: MultipartHttpServletRequest
+    ): ResponseEntity<out Any> {
+
+        // 1. Validate inputs
+        if (title.isBlank()) {
+            return ResponseEntity.badRequest().body(mapOf("error" to "Title is required"))
+        }
+        if (introduction.isBlank()) {
+            return ResponseEntity.badRequest().body(mapOf("error" to "Introduction is required"))
+        }
+        if (titleImage.isEmpty) {
+            return ResponseEntity.badRequest().body(mapOf("error" to "Title image is required"))
+        }
+
+        // 2. Find category
         val category = categoryRepository.findCategoryByTitle(categoryName)
+            ?: return ResponseEntity.badRequest().body(mapOf("error" to "Category not found: $categoryName"))
+
+        // 3. Save title image
+        val savedTitleImageName = try {
+            webAppService.saveFileToUploadFolder(titleImage)
+        } catch (e: Exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(mapOf("error" to "Failed to save title image: ${e.message}"))
+        }
+
+        // 4. Build points
         val points = mutableListOf<PostPoint>()
         var index = 0
         while (true) {
@@ -132,34 +158,67 @@ class ControllerForRestApi(
             val pointBody = request.getParameter("points[$index].pointBody")
             val pointImage = request.getFile("points[$index].pointImage")
 
-            //Add to points mutableListOf<PostPoint>()
+            // Save point image if present
+            val pointImageName = if (pointImage != null && !pointImage.isEmpty) {
+                try {
+                    webAppService.saveFileToUploadFolder(pointImage)
+                } catch (e: Exception) {
+                    // Clean up any already saved images
+                    points.forEach { it.pointImageName?.let { name -> webAppService.deleteImage(name) } }
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(mapOf("error" to "Failed to save point image: ${e.message}"))
+                }
+            } else {
+                null
+            }
+
+            // Create point (webPost will be set after Post creation)
             val postPoint = PostPoint(
                 id = null,
                 pointHeading = pointTitle,
                 pointBody = pointBody,
-                pointImageName = pointImage?.let { webAppService.saveFileToUploadFolder(it) },
-                post = null
+                pointImageName = pointImageName,
+                webPost = null  // Will be set later
             )
             points.add(postPoint)
             index++
         }
-        println(points.joinToString { " , " })
-        //save parameters to web post
+
+        // 5. Create new post
         val newPost = WebPost(
             id = null,
-            title = title,
-            titleImageName = webAppService.saveFileToUploadFolder(titleImage),
-            introduction = introduction,
+            title = title.trim(),
+            introduction = introduction.trim(),
+            titleImageName = savedTitleImageName,
             category = category,
-            points = points,
+            appUser = null, // ✅ Set the author (from SecurityContext)
+            points = points
         )
-        points.forEach { it.post = newPost }
-        /*postPointRepository.saveAll(points)*///Hibernate will cascade the save of points when you save WebPost.
-        newPost.points = points
-        webPostRepository.save(newPost)// saves everything in one go
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapOf(
-            "post" to newPost
-        ))
+
+        // 6. Set bidirectional relationship
+        points.forEach { it.webPost = newPost }
+
+        // 7. Save (cascade will persist points)
+        return try {
+            webPostRepository.save(newPost)
+            ResponseEntity.status(HttpStatus.CREATED).body(mapOf(
+                "message" to "Post created successfully",
+                "post" to mapOf(
+                    "id" to newPost.id,
+                    "title" to newPost.title,
+                    "category" to newPost.category?.title
+                )
+            ))
+        } catch (e: Exception) {
+            // Clean up uploaded images on failure
+            newPost.points.forEach { point ->
+                point.pointImageName?.let { webAppService.deleteImage(it) }
+            }
+            newPost.titleImageName?.let { webAppService.deleteImage(it) }
+
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(mapOf("error" to "Failed to save post: ${e.message}"))
+        }
     }
 
     @PostMapping("/update-category")
@@ -192,12 +251,14 @@ class ControllerForRestApi(
             ?: return ResponseEntity.notFound().build()
 
         // Map to simple DTO (safe for JSON)
-        return ResponseEntity.ok(mapOf(
-            "id" to category.id,
-            "title" to category.title,
-            "description" to category.description,
-            "imageName" to category.imageName
-        ))
+        return ResponseEntity.ok(
+            mapOf(
+                "id" to category.id,
+                "title" to category.title,
+                "description" to category.description,
+                "imageName" to category.imageName
+            )
+        )
     }
 
 
@@ -256,8 +317,9 @@ class ControllerForRestApi(
             request: MultipartHttpServletRequest
         ): ResponseEntity<out Any> {
 
-            // 1. Find the existing post
-            val post = webPostRepository.findWithPointById(id)?: return ResponseEntity.notFound().build()
+            // 1. Find the existing post with points
+            val post = webPostRepository.findWithPointById(id)
+                ?: return ResponseEntity.notFound().build()
 
             // 2. Find the category
             val category = categoryRepository.findCategoryByTitle(categoryName)
@@ -310,7 +372,7 @@ class ControllerForRestApi(
                         pointHeading = pointTitle,
                         pointBody = pointBody,
                         pointImageName = pointImageName,
-                        post = post
+                        webPost = post  // ✅ Fixed: was `post`, now `webPost`
                     )
                 }
 
@@ -322,17 +384,24 @@ class ControllerForRestApi(
             val pointsToRemove = post.points.filter { it !in updatedPoints }
             pointsToRemove.forEach { point ->
                 point.pointImageName?.let { webAppService.deleteImage(it) }
+                // Remove from post to trigger orphanRemoval
             }
 
-            // Clear and update points list
+            // 7. Clear and update points list
             post.points.clear()
             post.points.addAll(updatedPoints)
 
-            // 7. Save post (cascade saves points)
+            // 8. Save post (cascade saves points)
             return try {
                 webPostRepository.save(post)
                 ResponseEntity.ok().body(mapOf("message" to "Post updated successfully"))
             } catch (e: Exception) {
+                // Clean up any saved images if save fails
+                updatedPoints.forEach { point ->
+                    if (point.id == null && point.pointImageName != null) {
+                        webAppService.deleteImage(point.pointImageName)
+                    }
+                }
                 ResponseEntity.status(500).body("Error saving post: ${e.message}")
             }
         }

@@ -13,6 +13,8 @@ data class Category(
     val id: Long? = null,
     var title: String? = null,
     var imageName: String? = null,
+    @Lob
+    @Column(columnDefinition = "TEXT")
     var description: String? = null,
     @OneToMany(mappedBy = "category" , fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     var webPosts: MutableList<WebPost> = mutableListOf(),

@@ -20,7 +20,6 @@ class WebPost(
     @Column(name = "title_image_name")
     var titleImageName: String? = null,
 
-    @Lob
     @Column(name = "introduction", columnDefinition = "TEXT")
     var introduction: String? = null,
 

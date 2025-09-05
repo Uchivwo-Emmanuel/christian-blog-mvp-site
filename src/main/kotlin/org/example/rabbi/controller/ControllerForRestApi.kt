@@ -511,6 +511,7 @@ class ControllerForRestApi(
     @DeleteMapping("/delete-admin/{id}")
     fun deleteAdmin(@PathVariable id: Long): ResponseEntity<out Any> {
         val admin = appUserRepository.findById(id).orElse(null) ?: return ResponseEntity.notFound().build()
+        webAppService.deleteImage(admin.adminImage)
         appUserRepository.delete(admin)
         return ResponseEntity.ok(mapOf("message" to "Admin deleted"))
     }

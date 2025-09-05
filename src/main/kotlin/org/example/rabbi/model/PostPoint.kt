@@ -17,7 +17,6 @@ class PostPoint(
     @Column(name = "point_heading", nullable = false)
     var pointHeading: String? = null,
 
-    @Lob
     @Column(name = "point_body", columnDefinition = "TEXT")
     var pointBody: String? = null,
 

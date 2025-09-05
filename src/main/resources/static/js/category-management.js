@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
+
     // === FETCH & RENDER CATEGORIES ===
     fetch("/api/get-categories")
         .then(res => {
@@ -27,6 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
             categoriesGrid.innerHTML = "";
 
             categories.forEach(cat => {
+
+                // Truncate function
+                function truncate(text, limit) {
+                    if (!text) return '';
+                    const words = text.split(' ');
+                    if (words.length <= limit) return text;
+                    return words.slice(0, limit).join(' ') + '...';
+                }
+
                 const card = document.createElement("div");
                 card.className = "category-card";
 
@@ -37,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="category-info">
                         <h3>${cat.title}</h3>
-                        <p>${cat.description ? cat.description : '<em>No description</em>'}</p>
+                        <p>${truncate(cat.description, 20) ? truncate(cat.description, 50) : '<em>No description</em>'}</p>
                     </div>
                     <div class="category-actions">
                         <button class="btn-edit" 

@@ -66,8 +66,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+
+
             posts.forEach(post => {
                 const points = Array.isArray(post.points) ? post.points : [];
+
+                // Truncate function
+                function truncate(text, limit) {
+                    if (!text) return '';
+                    const words = text.split(' ');
+                    if (words.length <= limit) return text;
+                    return words.slice(0, limit).join(' ') + '...';
+                }
 
                 const postCard = document.createElement("div");
                 postCard.className = "post-card";
@@ -77,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="post-content">
                         <h3>${escapeHtml(post.title)}</h3>
-                        <p class="intro">${escapeHtml(post.introduction)}</p>
+                        <p class="intro">${escapeHtml(truncate(post.introduction, 30))}</p>
                         <p class="category"><strong>Category:</strong> ${escapeHtml(post.categoryName)}</p>
                         <p class="date"><strong>Created:</strong> ${new Date(post.createdOn).toLocaleDateString()}</p>
 
@@ -85,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             ${points.map(p => `
                                 <div class="point">
                                     <h4>${escapeHtml(p.pointTitle || '')}</h4>
-                                    <p>${escapeHtml(p.pointBody || '')}</p>
+                                    <p>${escapeHtml(truncate(p.pointBody,80) || '')}</p>
                                     ${p.pointImageName ? `<img src="/uploads/${p.pointImageName}" alt="Point Image"/>` : ""}
                                 </div>
                             `).join("")}

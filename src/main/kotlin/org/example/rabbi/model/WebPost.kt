@@ -13,6 +13,7 @@ class WebPost(
     val id: Long? = null,
     var title: String? = null,
     var titleImageName: String? = null,
+    @Column(name = "introduction", columnDefinition = "TEXT")
     var introduction: String? = null,
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)//Hibernate will cascade the save of points when you save WebPost.
     var points: MutableList<PostPoint> = mutableListOf(),

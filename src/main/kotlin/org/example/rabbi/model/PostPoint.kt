@@ -11,6 +11,7 @@ class PostPoint(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
     var pointHeading: String? = null,
+    @Column(name = "point_body", columnDefinition = "TEXT")
     var pointBody: String? = null,
     @ManyToOne @JsonIgnore
     var post: WebPost? = null,

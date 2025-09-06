@@ -298,6 +298,24 @@
     backdrop-filter: blur(4px);
 }
 
+.form-group input[type="file"] {
+    padding: 10px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    background: rgba(230, 126, 34, 0.05);
+    cursor: pointer;
+}
+
+.form-group input[type="file"]::file-selector-button {
+    background: var(--accent-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;

@@ -96,11 +96,11 @@ class WebAppService(private val categoryRepository: CategoryRepository) {
     private fun getCategoryColor(categoryTitle: String): String {
         return when (categoryTitle.lowercase().trim()) {
             "doctrine" -> "#1abc9c"                 // Turquoise
-            "testimonies" -> "#9b59b6"              // Amethyst
-            "school of the spirit" -> "#3498db"     // Peter
+            "penned by inspiration" -> "#9b59b6"              // Amethyst
+            "kingdom scribes" -> "#3498db"     // Peter (Sky Blue)
             "prayer" -> "#e74c3c"                   // Alizarin
             "worship" -> "#f39c12"                  // Orange
-            else -> "#7f8c8d"                       // Gray
+            else -> "#e74c3c"                       // Gray
         }
     }
 

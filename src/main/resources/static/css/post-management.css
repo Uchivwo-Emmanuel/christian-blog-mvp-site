@@ -831,3 +831,17 @@ body {
         font-size: 1.05rem;
     }
 }
+/*================= Additional points styling =================*/
+.additional-points {
+    font-size: 0.85rem;
+    color: #a0522d; /* Gold-brown, matches theme */
+    margin-top: 8px;
+    font-style: italic;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .additional-points {
+        font-size: 0.8rem;
+    }
+}

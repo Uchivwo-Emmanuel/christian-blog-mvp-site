@@ -257,7 +257,8 @@ class ControllerForRestApi(
     ): ResponseEntity<out Any> {
 
         // 1. Find the existing post
-        val post = webPostRepository.findWithPointById(id)?: return ResponseEntity.notFound().build()
+        val post = webPostRepository.findWithPointById(id)
+            ?: return ResponseEntity.notFound().build()
 
         // 2. Find the category
         val category = categoryRepository.findCategoryByTitle(categoryName)
@@ -284,33 +285,45 @@ class ControllerForRestApi(
             val pointBody = request.getParameter("points[$index].pointBody")
             val pointImage = request.getFile("points[$index].pointImage")
 
-            // Save new point image if provided
-            val pointImageName = if (pointImage != null && !pointImage.isEmpty) {
-                webAppService.saveFileToUploadFolder(pointImage)
-            } else {
-                null
+            // Determine point image name
+            val pointImageName = when {
+                pointImage != null && !pointImage.isEmpty -> {
+                    // Upload new image
+                    val savedName = webAppService.saveFileToUploadFolder(pointImage)
+                    // Delete old image if different
+                    if (index < post.points.size && post.points[index].pointImageName != null) {
+                        val oldName = post.points[index].pointImageName
+                        if (oldName != savedName) {
+                            webAppService.deleteImage(oldName)
+                        }
+                    }
+                    savedName
+                }
+                index < post.points.size -> {
+                    // Reuse existing image name
+                    post.points[index].pointImageName
+                }
+                else -> {
+                    // New point, no image
+                    null
+                }
             }
 
-            // Reuse existing point if possible, otherwise create new
             val point = if (index < post.points.size) {
+                // Update existing point
                 val existing = post.points[index]
                 existing.pointHeading = pointTitle
                 existing.pointBody = pointBody
-
-                // If new image, delete old one and update
-                if (pointImageName != null && existing.pointImageName != null) {
-                    webAppService.deleteImage(existing.pointImageName)
-                }
                 existing.pointImageName = pointImageName
-
                 existing
             } else {
+                // Create new point
                 PostPoint(
                     id = null,
                     pointHeading = pointTitle,
                     pointBody = pointBody,
                     pointImageName = pointImageName,
-                    post = post
+                    post = post  // ✅ Correct field name
                 )
             }
 
@@ -324,11 +337,11 @@ class ControllerForRestApi(
             point.pointImageName?.let { webAppService.deleteImage(it) }
         }
 
-        // Clear and update points list
+        // 7. Update points list
         post.points.clear()
         post.points.addAll(updatedPoints)
 
-        // 7. Save post (cascade saves points)
+        // 8. Save post
         return try {
             webPostRepository.save(post)
             ResponseEntity.ok().body(mapOf("message" to "Post updated successfully"))

@@ -79,38 +79,50 @@ document.addEventListener("DOMContentLoaded", () => {
                     return words.slice(0, limit).join(' ') + '...';
                 }
 
+                // Inside posts.forEach(post => { ... })
                 const postCard = document.createElement("div");
                 postCard.className = "post-card";
+
+                // Use only the first point for display
+                const displayPoints = points.length > 0 ? [points[0]] : [];
+
                 postCard.innerHTML = `
-                    <div class="post-image">
-                        <img src="/uploads/${post.titleImageName}" alt="${escapeHtml(post.title)}">
-                    </div>
-                    <div class="post-content">
-                        <h3>${escapeHtml(post.title)}</h3>
-                        <p class="intro">${escapeHtml(truncate(post.introduction, 30))}</p>
-                        <p class="category"><strong>Category:</strong> ${escapeHtml(post.categoryName)}</p>
-                        <p class="date"><strong>Created:</strong> ${new Date(post.createdOn).toLocaleDateString()}</p>
+    <div class="post-image">
+        <img src="/uploads/${post.titleImageName}" alt="${escapeHtml(post.title)}">
+    </div>
+    <div class="post-content">
+        <h3>${escapeHtml(post.title)}</h3>
+        <p class="intro">${escapeHtml(truncate(post.introduction, 30))}</p>
+        <p class="category"><strong>Category:</strong> ${escapeHtml(post.categoryName)}</p>
+        <p class="date"><strong>Created:</strong> ${new Date(post.createdOn).toLocaleDateString()}</p>
 
-                        <div class="points">
-                            ${points.map(p => `
-                                <div class="point">
-                                    <h4>${escapeHtml(p.pointTitle || '')}</h4>
-                                    <p>${escapeHtml(truncate(p.pointBody,80) || '')}</p>
-                                    ${p.pointImageName ? `<img src="/uploads/${p.pointImageName}" alt="Point Image"/>` : ""}
-                                </div>
-                            `).join("")}
-                        </div>
+        <div class="points">
+            ${displayPoints.map(p => `
+                <div class="point">
+                    <h4>${escapeHtml(p.pointTitle || '')}</h4>
+                    <p>${escapeHtml(truncate(p.pointBody, 80) || '')}</p>
+                    ${p.pointImageName ? `<img src="/uploads/${p.pointImageName}" alt="Point Image"/>` : ""}
+                </div>
+            `).join("")}
+        </div>
 
-                        <div class="post-actions">
-                            <button class="btn-edit" data-id="${post.id}">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </button>
-                            <button class="btn-delete" data-id="${post.id}" data-title="${escapeHtml(post.title)}">
-                                <i class="bi bi-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
-                `;
+        <!-- Indicator for additional points -->
+        ${points.length > 1 ?
+                    `<p class="additional-points">
+                <small>+ ${points.length - 1} more point${points.length > 2 ? 's' : ''} (visible when editing)</small>
+            </p>` : ''
+                }
+
+        <div class="post-actions">
+            <button class="btn-edit" data-id="${post.id}">
+                <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            <button class="btn-delete" data-id="${post.id}" data-title="${escapeHtml(post.title)}">
+                <i class="bi bi-trash"></i> Delete
+            </button>
+        </div>
+    </div>
+`;
                 postsGrid.appendChild(postCard);
             });
 
@@ -265,26 +277,28 @@ document.addEventListener("DOMContentLoaded", () => {
         pointGroup.dataset.index = index;
 
         pointGroup.innerHTML = `
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Point Title</label>
-                    <input type="text" name="points[${index}].pointTitle" value="${escapeHtml(pointData.pointTitle || '')}" required />
-                </div>
-                <div class="form-group">
-                    <label>Point Image (Optional)</label>
-                    <input type="file" name="points[${index}].pointImage" accept="image/*" />
-                    <div class="image-preview" style="display: ${pointData.pointImageName ? 'block' : 'none'};">
-                        <img src="${pointData.pointImageName ? `/uploads/${pointData.pointImageName}` : ''}" alt="Preview" />
-                        <button type="button" class="remove-image">&times;</button>
-                    </div>
-                </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Point Title</label>
+                <input type="text" name="points[${index}].pointTitle" value="${escapeHtml(pointData.pointTitle || '')}" required />
             </div>
             <div class="form-group">
-                <label>Point Body</label>
-                <textarea name="points[${index}].pointBody" rows="3">${escapeHtml(pointData.pointBody || '')}</textarea>
+                <label>Point Image (Optional)</label>
+                <input type="file" name="points[${index}].pointImage" accept="image/*" />
+                <div class="image-preview" style="display: ${pointData.pointImageName ? 'block' : 'none'};">
+                    <img src="${pointData.pointImageName ? `/uploads/${pointData.pointImageName}` : ''}" alt="Preview" />
+                    <button type="button" class="remove-image">&times;</button>
+                </div>
+                <!-- Hidden field to preserve existing image name -->
+                <input type="hidden" name="points[${index}].pointImageName" value="${pointData.pointImageName || ''}" />
             </div>
-            <button type="button" class="btn-remove-point">Remove</button>
-        `;
+        </div>
+        <div class="form-group">
+            <label>Point Body</label>
+            <textarea name="points[${index}].pointBody" rows="3">${escapeHtml(pointData.pointBody || '')}</textarea>
+        </div>
+        <button type="button" class="btn-remove-point">Remove</button>
+    `;
 
         container.appendChild(pointGroup);
 

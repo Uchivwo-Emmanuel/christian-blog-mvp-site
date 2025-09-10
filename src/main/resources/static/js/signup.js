@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Redirect after success
                 setTimeout(() => {
-                    window.location.href = "../admins"; // ✅ Fixed path
+                    window.location.href = "../admin/admin-dashboard.html"; // ✅ Fixed path
                 }, 1500);
             } else {
                 const errorData = await response.text();

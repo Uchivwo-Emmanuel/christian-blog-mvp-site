@@ -15,4 +15,9 @@ interface CategoryRepository : JpaRepository<Category, Long?> {
     @Query("SELECT DISTINCT c FROM Category c LEFT JOIN FETCH c.webPosts WHERE c.id = :id")
     fun findByIdWithPosts(@Param("id") id: Long): Category?
 
+/*    @Query("SELECT c FROM Category c ORDER BY c.updatedOn DESC")
+    fun findLatestUpdated(): Category?
+    */
+    fun findFirstByOrderByUpdatedOnDesc(): Category?
+
 }

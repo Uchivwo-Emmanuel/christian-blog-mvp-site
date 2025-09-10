@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
+import java.time.LocalDateTime
 
 
 @RestController
@@ -409,6 +410,29 @@ class ControllerForRestApi(
         }
         return ResponseEntity.ok(mapOf("admins" to admins))
     }
+
+    @GetMapping("/stats")
+    fun getDashboardStats(): ResponseEntity<Map<String, Any>> {
+        val totalCategories = categoryRepository.count()
+        val totalPosts = webPostRepository.count()
+        val totalAdmins = appUserRepository.count()
+
+        val lastUpdated = listOf(
+            categoryRepository.findFirstByOrderByUpdatedOnDesc()?.updatedOn,
+            webPostRepository.findFirstByOrderByUpdatedOnDesc()?.updatedOn,
+            appUserRepository.findFirstByOrderByUpdatedOnDesc()?.updatedOn
+        ).filterNotNull().maxOrNull() ?: LocalDateTime.now()
+
+        return ResponseEntity.ok(
+            mapOf(
+                "totalCategories" to totalCategories,
+                "totalPosts" to totalPosts,
+                "totalAdmins" to totalAdmins,
+                "lastUpdated" to lastUpdated
+            )
+        )
+    }
+
 
     // ControllerForRestApi.kt
     @GetMapping("/validate-token")

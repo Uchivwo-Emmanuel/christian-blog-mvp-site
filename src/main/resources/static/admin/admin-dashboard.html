@@ -74,34 +74,42 @@
         </div>
     </section>
 
+
+    <!-- Stats Grid -->
     <section class="stats-grid">
-        <div class="stat-card total-categories"><i class="bi bi-folder"></i><div><h3>Categories</h3><p th:text="${totalCategories}">0</p></div></div>
-        <div class="stat-card total-posts"><i class="bi bi-journal-text"></i><div><h3>Posts</h3><p th:text="${totalPosts}">0</p></div></div>
-        <div class="stat-card total-admins"><i class="bi bi-shield-lock"></i><div><h3>Admins</h3><p th:text="${totalAdmins}">0</p></div></div>
-        <div class="stat-card last-updated"><i class="bi bi-clock"></i><div><h3>Last Update</h3><p th:text="${#temporals.format(lastUpdated, 'MMM dd, yyyy')}">-</p></div></div>
+        <div class="stat-card total-categories">
+            <i class="bi bi-folder"></i>
+            <div><h3>Categories</h3><p id="totalCategories">0</p></div>
+        </div>
+        <div class="stat-card total-posts">
+            <i class="bi bi-journal-text"></i>
+            <div><h3>Posts</h3><p id="totalPosts">0</p></div>
+        </div>
+        <div class="stat-card total-admins">
+            <i class="bi bi-shield-lock"></i>
+            <div><h3>Admins</h3><p id="totalAdmins">0</p></div>
+        </div>
+        <div class="stat-card last-updated">
+            <i class="bi bi-clock"></i>
+            <div><h3>Last Update</h3><p id="lastUpdated">-</p></div>
+        </div>
     </section>
 
     <section class="recent-section">
-        <h2>Recent Items</h2>
+        <h2>Recent Info</h2>
         <div class="recent-list">
             <h3>Categories</h3>
-            <ul th:if="${not #lists.isEmpty(recentCategories)}" th:each="cat : ${recentCategories}">
-                <li><strong th:text="${cat.title}"></strong><span class="actions"><a th:href="@{/admin/edit-category(id=${cat.id})}" class="edit">Edit</a><a th:href="@{/admin/delete-category(id=${cat.id})}" class="delete" onclick="return confirm('Delete?')">Delete</a></span></li>
-            </ul>
-            <p th:if="${#lists.isEmpty(recentCategories)}" class="empty">No categories yet.</p>
+            <ul id="recentCategories"></ul>
+            <p class="empty">No categories yet.</p>
         </div>
         <div class="recent-list">
             <h3>Posts</h3>
-            <ul th:if="${not #lists.isEmpty(recentPosts)}" th:each="post : ${recentPosts}">
-                <li><strong th:text="${post.title}"></strong><span th:text="${#temporals.format(post.createdOn, 'MMM dd')}"></span><span class="actions"><a th:href="@{/admin/edit-post(id=${post.id})}" class="edit">Edit</a><a th:href="@{/admin/delete-post(id=${post.id})}" class="delete" onclick="return confirm('Delete?')">Delete</a></span></li>
-            </ul>
-            <p th:if="${#lists.isEmpty(recentPosts)}" class="empty">No posts yet.</p>
+            <ul id="recentPosts"></ul>
+            <p class="empty">No posts yet.</p>
         </div>
         <div class="recent-list">
             <h3>Admins</h3>
-            <ul th:if="${not #lists.isEmpty(recentAdmins)}" th:each="admin : ${recentAdmins}">
-                <li><strong th:text="${admin.firstName + ' ' + admin.lastName}"></strong><span th:text="${admin.appUserEmail}"></span><span class="actions"><a th:href="@{/admin/edit-admin(id=${admin.appUserId})}" class="edit">Edit</a><a th:href="@{/admin/delete-admin(id=${admin.appUserId})}" class="delete" onclick="return confirm('Revoke?')">Revoke</a></span></li>
-            </ul>
+            <ul id="recentAdmins"></ul>
             <p class="empty">No additional admins.</p>
         </div>
     </section>
@@ -115,5 +123,6 @@
 <!-- JavaScript -->
 <script src="/js/dashboard.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/dashboard-data.js"></script>
 </body>
 </html>
